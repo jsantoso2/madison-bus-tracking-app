@@ -1,0 +1,13 @@
+/home/jonat/testpipeline/src/main/java/datamodel/TripUpdate.java
+/home/jonat/testpipeline/src/main/java/datamodel/Departure.java
+/home/jonat/testpipeline/src/main/java/datamodel/Arrival.java
+/home/jonat/testpipeline/src/main/java/datamodel/Trip.java
+/home/jonat/testpipeline/src/main/java/testpipeline/PipelineJob.java
+/home/jonat/testpipeline/src/main/java/datamodel/Vehicle.java
+/home/jonat/testpipeline/src/main/java/datamodel/VehicleDescription.java
+/home/jonat/testpipeline/src/main/java/datamodel/StopTimeUpdateElement.java
+/home/jonat/testpipeline/src/main/java/datamodel/Position.java
+/home/jonat/testpipeline/src/main/java/datamodel/VehiclePositionEvent.java
+/home/jonat/testpipeline/src/main/java/datamodel/VehiclePositionEventDeserializer.java
+/home/jonat/testpipeline/src/main/java/datamodel/TripUpdateEventDeserializer.java
+/home/jonat/testpipeline/src/main/java/datamodel/TripUpdateEvent.java

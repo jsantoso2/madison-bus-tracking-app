@@ -213,6 +213,7 @@ public class PipelineJob {
                         "    stopName STRING, ",
                         "    stopLat STRING, ",
                         "    stopLon STRING, ", 
+                        "    updateTime STRING, ",
                         "    info STRING, ",
                         "    PRIMARY KEY (stopId) NOT ENFORCED",
                         "    ) WITH ( ",
@@ -333,6 +334,7 @@ public class PipelineJob {
                            "            WHEN (CAST(b.tripUpdate.stopTimeUpdate[19].departure.`time` AS BIGINT) + COALESCE(CAST(b.tripUpdate.stopTimeUpdate[19].departure.`delay` AS BIGINT), CAST(0 AS BIGINT)) >= b.`timestamp`) THEN b.tripUpdate.stopTimeUpdate[19].stopId",
                            "            WHEN (CAST(b.tripUpdate.stopTimeUpdate[20].departure.`time` AS BIGINT) + COALESCE(CAST(b.tripUpdate.stopTimeUpdate[20].departure.`delay` AS BIGINT), CAST(0 AS BIGINT)) >= b.`timestamp`) THEN b.tripUpdate.stopTimeUpdate[20].stopId",
                            "            ELSE CAST(0 AS STRING) END = d.stop_id",
+                           "WHERE CAST(UNIX_TIMESTAMP() AS BIGINT) - CAST(a.vehicle.`timestamp` AS BIGINT) < 150",
                           ")"
                            );
 
@@ -340,9 +342,9 @@ public class PipelineJob {
         
         String sql2 = String.join("\n",
                     "INSERT INTO OutputTableStop", 
-                    "SELECT stopId, stopName, stopLat, stopLon, CAST(COLLECT((id, routeName, tripHeadSign, CONVERT_TZ(FROM_UNIXTIME(CAST(arrivalTime AS INTEGER)), 'UTC', 'America/Chicago'), delay)) AS STRING) AS info",
+                    "SELECT stopId, stopName, stopLat, stopLon, updateTime, CAST(COLLECT((id, routeName, tripHeadSign, CONVERT_TZ(FROM_UNIXTIME(CAST(arrivalTime AS INTEGER)), 'UTC', 'America/Chicago'), delay)) AS STRING) AS info",
                     "FROM (", 
-                        "SELECT a.id, a.routeName, a.tripHeadSign, b.stopId, c.stop_name AS stopName, c.stop_lat AS stopLat, c.stop_lon AS stopLon, COALESCE(b.departure.`time`, b.arrival.`time`) AS arrivalTime, COALESCE(b.departure.`delay`, b.arrival.`delay`) AS delay",
+                        "SELECT a.id, a.routeName, a.tripHeadSign, b.stopId, c.stop_name AS stopName, c.stop_lat AS stopLat, c.stop_lon AS stopLon, CONVERT_TZ(FROM_UNIXTIME(a.`timestamp`), 'UTC', 'America/Chicago') AS `updateTime`, COALESCE(b.departure.`time`, b.arrival.`time`) AS arrivalTime, COALESCE(b.departure.`delay`, b.arrival.`delay`) AS delay",
                         "FROM (", 
                             "SELECT a.id, ", 
                             "       a.tripUpdate.stopTimeUpdate, ",
@@ -356,16 +358,19 @@ public class PipelineJob {
                         "CROSS JOIN UNNEST(a.stopTimeUpdate) b",
                         "LEFT JOIN StopLookupTable c ON b.stopId = c.stop_id",
                         "WHERE (CAST(b.departure.`time` AS BIGINT) + COALESCE(CAST(b.departure.`delay` AS BIGINT), CAST(0 AS BIGINT)) >= a.`timestamp`)",
+                        "AND CAST(UNIX_TIMESTAMP() AS BIGINT) - CAST(a.`timestamp` AS BIGINT) < 150",
                     ")",
-                    "GROUP BY stopId, stopName, stopLat, stopLon;"
+                    "GROUP BY stopId, stopName, stopLat, stopLon, updateTime;"
                     );
+
+        //tEnv.executeSql(sql2).print();
             
         // Execute Jobs together through StatementSet
         StatementSet statementset = tEnv.createStatementSet();
 
         // only single INSERT query can be accepted by `add_insert_sql` method
         statementset.addInsertSql(sql1);
-        statementset.addInsertSql(sql2);
+        statementset.addInsertSql(sql2); // Large query - comment just to avoid maintenance
         statementset.execute();
     }
 }
