@@ -75,25 +75,27 @@
 </table>
 
 ### Tools/Framework Used:
-- Terraform: To create and standardize GCP resources (ex: VPC Netowork, Subnets, storage bucket, VM, etc.)
-- Kafka: Message broker to handle stream data
-- Flink: To process messages and perform transformation in streaming mode
-- Helm: Pre-built charts for deployment of Flink/Grafana/Prometheus on Kubernetes
-- Prometheus: To monitor Flink Job (if running on GKE)
-- Grafana: Display Prometheus Metrics on Flink Job (if running on GKE)
-- Websockets: To connect Kafka to React (built in Python)
-- React: To display Front End Application
-- VPC Network: Private Network setup in GCP
-- Cloud NAT: Allows Private IP VMs to connect to outside internet
-- Pub/Sub: Recieve trigger from Cloud Scheduler to run Cloud Function
-- Cloud Function: Receive Trigger from Pub/Sub and writes each event to Kafka Topic
-- Cloud Scheduler: Triggers Pub/Sub and later cloud function to get data from Transit Website
-- Compute Engine: Host Bitnami Image for Kafka + Host Flink Cluster (if running on VM)
-- Cloud Storage: Storage location for static lookup files
-- GKE: Host Flink Cluster (if running on Kubernetes)
-- Cloud Run: To host deployment of WebSocket application
-- App Engine: To host deployment of React App
-- Artifact Registry: Hold pre-built container (for Flink Job + WebSockets)
+- Non-GCP Services  
+  - Terraform: To create and standardize GCP resources (ex: VPC Netowork, Subnets, storage bucket, VM, etc.)
+  - Kafka: Message broker to handle stream data
+  - Flink: To process messages and perform transformation in streaming mode
+  - Helm: Pre-built charts for deployment of Flink/Grafana/Prometheus on Kubernetes
+  - Prometheus: To monitor Flink Job (if running on GKE)
+  - Grafana: Display Prometheus Metrics on Flink Job (if running on GKE)
+  - Websockets: To connect Kafka to React (built in Python)
+  - React: To display Front End Application
+- GCP Services
+  - VPC Network: Private Network setup in GCP
+  - Cloud NAT: Allows Private IP VMs to connect to outside internet
+  - Pub/Sub: Recieve trigger from Cloud Scheduler to run Cloud Function
+  - Cloud Function: Receive Trigger from Pub/Sub and writes each event to Kafka Topic
+  - Cloud Scheduler: Triggers Pub/Sub and later cloud function to get data from Transit Website
+  - Compute Engine: Host Bitnami Image for Kafka + Host Flink Cluster (if running on VM)
+  - Cloud Storage: Storage location for static lookup files
+  - GKE: Host Flink Cluster (if running on Kubernetes)
+  - Cloud Run: To host deployment of WebSocket application
+  - App Engine: To host deployment of React App
+  - Artifact Registry: Hold pre-built container (for Flink Job + WebSockets)
 
 ### Procedure/General Setup
 - Pre-Setup
