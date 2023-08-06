@@ -1,0 +1,25 @@
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: basic-example
+  labels:
+    app.kubernetes.io/name: flink-kubernetes-operator
+spec:
+  image: us-central1-docker.pkg.dev/learning-gcp-392602/my-repo/testpipeline-docker:v0.1
+  imagePullPolicy: Always
+  flinkVersion: v1_17
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "2"
+  serviceAccount: flink
+  jobManager:
+    resource:
+      memory: "2048m"
+      cpu: 1
+  taskManager:
+    resource:
+      memory: "2048m"
+      cpu: 1
+  job:
+    jarURI: local:///opt/flink/examples/streaming/testpipeline-0.1.jar
+    parallelism: 2
+    upgradeMode: stateless

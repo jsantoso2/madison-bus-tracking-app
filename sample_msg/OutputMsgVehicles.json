@@ -1,0 +1,18 @@
+{
+    "id": "115",
+    "tripId": "1135041",
+    "shapeId": "62681",
+    "routeName": "L",
+    "tripHeadSign": "CHEROKEE",
+    "startDate": "2023-08-05",
+    "startTime": "19:15:00",
+    "latitude": 43.09818,
+    "longitude": -89.31822,
+    "updateTime": "2023-08-05 19:55:07",
+    "nextStopSequence": "32",
+    "nextStopId": "9237",
+    "nextStopName": "N Stoughton E & N Stoughton (NB)",
+    "nextStopApproachSec": null,
+    "nextStopDelay": null,
+    "ingestionTime": "2023-08-05 19:56:01"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "2215",
+  "vehicle": {
+    "trip": {
+      "tripId": "1134725",
+      "startDate": "20230805",
+      "routeId": "10468"
+    },
+    "position": {
+      "latitude": 43.0364,
+      "longitude": -89.45378,
+      "bearing": 225.0
+    },
+    "timestamp": "1691291670",
+    "vehicle": {
+      "id": "2592",
+      "label": "2215"
+    },
+    "occupancyStatus": "MANY_SEATS_AVAILABLE",
+    "occupancyPercentage": 20
+  }
+}
