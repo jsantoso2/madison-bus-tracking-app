@@ -1,7 +1,7 @@
-# madison-tracking-app
+# madison-bus-tracking-app
 - Create Cloud Scheduler job to pull data from Madison Transit Website and publish to Kafka Topic
 - Process Kafka Messages using Flink Streaming Job and Publish back to Kafka Topic - VM / GKE [+ Prometheus/Grafana Monitoring] 
-- Reads from Kafka Topic to publish messages to Websocket
+- Read from Kafka Topic to publish messages to Websocket
 - Connect Websocket to React App for Visualization
 - All services are hosted on GCP
 
