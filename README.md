@@ -3,15 +3,17 @@
 - Process Kafka Messages using Flink Streaming Job and Publish back to Kafka Topic - VM / GKE [+ Prometheus/Grafana Monitoring] 
 - Reads from Kafka Topic to publish messages to Websocket
 - Connect Websocket to React App for Visualization
+- All services are hosted on GCP
 
-#### Website Link (Valid until Oct 1st 2023): https://learning-gcp-392602.uc.r.appspot.com/
+### Website Link (Valid until Oct 1st 2023): https://learning-gcp-392602.uc.r.appspot.com/
   
 ### Purpose + Goal:
 - Learn technologies (Terraform, Kafka, Flink, Networking in GCP, GKE, Websockets, React), NOT producing the best/optimal architecture
 
 ### Architecture Diagram:
 <p align="center"> <img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/ArchitectureDiagram.png height="400"></p>
-NOTE: Pull message every 2 minutes (to reduce strain on Madison Transit Server). All GCP resources only have Private IP.
+<p>NOTE: Pull message every 2 minutes + Data pulls suspended from 12AM - 5AM CT (to reduce strain on Madison Transit Server) </p>
+<p>NOTE: All GCP resources only have Private IP </p>
 
 #### Data Sources:
 - Madison Transit Data: https://www.cityofmadison.com/metro/business/information-for-developers
@@ -47,16 +49,16 @@ NOTE: Pull message every 2 minutes (to reduce strain on Madison Transit Server).
     <td>Flink Job</td>
   </tr>
   <tr>
-    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/FlinkUI.png height="150"></td>
-    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/FlinkJob.png height="150"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/FlinkUI.png height="200"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/FlinkJob.png height="200"></td>
   </tr>
   <tr>
     <td>Grafana on GKE only</td>
     <td>Prometheus on GKE only</td>
   </tr>
   <tr>
-    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/SampleGrafanaDash.png height="150"></td>
-    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/SamplePrometheus.png height="100"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/SampleGrafanaDash.png height="200"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/SamplePrometheus.png height="125"></td>
   </tr>
 </table>
 
@@ -76,12 +78,22 @@ NOTE: Pull message every 2 minutes (to reduce strain on Madison Transit Server).
 - Terraform: To create and standardize GCP resources (ex: VPC Netowork, Subnets, storage bucket, VM, etc.)
 - Kafka: Message broker to handle stream data
 - Flink: To process messages and perform transformation in streaming mode
-- Websockets: To
-- 
-- Google Cloud Storage Bucket: Data Lake to store files produced by Spark Streaming
-- Google Cloud Function: To batch load data from GCS to BigQuery because streaming insets are expensive!
-- Google BigQuery: Data Warehouse to store data so that it can be queried
-- Google Data Studio: Visualization Tool to create dashboard
+- Helm: Pre-built charts for deployment of Flink/Grafana/Prometheus on Kubernetes
+- Prometheus: To monitor Flink Job (if running on GKE)
+- Grafana: Display Prometheus Metrics on Flink Job (if running on GKE)
+- Websockets: To connect Kafka to React (built in Python)
+- React: To display Front End Application
+- VPC Network: Private Network setup in GCP
+- Cloud NAT: Allows Private IP VMs to connect to outside internet
+- Pub/Sub: Recieve trigger from Cloud Scheduler to run Cloud Function
+- Cloud Function: Receive Trigger from Pub/Sub and writes each event to Kafka Topic
+- Cloud Scheduler: Triggers Pub/Sub and later cloud function to get data from Transit Website
+- Compute Engine: Host Bitnami Image for Kafka + Host Flink Cluster (if running on VM)
+- Cloud Storage: Storage location for static lookup files
+- GKE: Host Flink Cluster (if running on Kubernetes)
+- Cloud Run: To host deployment of WebSocket application
+- App Engine: To host deployment of React App
+- Artifact Registry: Hold pre-built container (for Flink Job + WebSockets)
 
 ### Procedure/General Setup
 - Pre-Setup
