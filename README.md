@@ -63,16 +63,10 @@
 </table>
 
 #### Application UI:
-<table>
-  <tr>
-    <td>Waiting for Messages</td>
-    <td>Messages Available</td>
-  </tr>
-  <tr>
-    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/AppStart.png height="250"></td>
-    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/AppMain.png height="250"></td>
-  </tr>
-</table>
+<p>1. Waiting For Messages: </p>
+<img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/AppStart.png height="375">
+<p>2. Messages Available: </p>
+<img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/AppMain.png height="375">
 
 ### Tools/Framework Used:
 - Non-GCP Services  
