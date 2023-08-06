@@ -1,0 +1,25 @@
+.slick-slide {
+    height: 17vh;
+    background-color: #888484;
+    font-size: 10px;
+    margin-left: 5px;
+    margin-top: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.slick-prev {
+    left: 1% !important;
+    top: 25% !important;
+    z-index: 1;
+    color: black;
+    background-color: black;      
+}
+
+.slick-next {
+    right: 1% !important;
+    top: 25% !important;
+    z-index: 1;
+    color: black;
+    background-color: black;
+}
