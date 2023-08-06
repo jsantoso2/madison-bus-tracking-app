@@ -3,13 +3,15 @@
 - Process Kafka Messages using Flink Streaming Job and Publish back to Kafka Topic - VM / GKE [+ Prometheus/Grafana Monitoring] 
 - Reads from Kafka Topic to publish messages to Websocket
 - Connect Websocket to React App for Visualization
+
+#### Website Link (Valid until Oct 1st 2023): https://learning-gcp-392602.uc.r.appspot.com/
   
 ### Purpose + Goal:
 - Learn technologies (Terraform, Kafka, Flink, Networking in GCP, GKE, Websockets, React), NOT producing the best/optimal architecture
 
-### Pipeline Diagram:
-<p align="center"> <img src=https://github.com/jsantoso2/reddit-data-engineering/blob/main/images/pipeline_diagram.png height="130"></p>
-Currently, Spark Stream writes a new file every 4 hours -> which triggers the Cloud Function to load to BigQuery 
+### Architecture Diagram:
+<p align="center"> <img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/ArchitectureDiagram.png height="400"></p>
+NOTE: Pull message every 2 minutes (to reduce strain on Madison Transit Server). All GCP resources only have Private IP.
 
 #### Data Sources:
 - Madison Transit Data: https://www.cityofmadison.com/metro/business/information-for-developers
@@ -21,15 +23,42 @@ Currently, Spark Stream writes a new file every 4 hours -> which triggers the Cl
 #### Sample Data:
 <table>
   <tr>
-    <td>Submissions</td>
-    <td>Comments</td>
+    <td>Input Msg VehiclePositions</td>
+    <td>Input Msg Trips</td>
   </tr>
   <tr>
-    <td valign="top"><img src=https://github.com/jsantoso2/reddit-data-engineering/blob/main/images/submissions_data.png height="200"></td>
-    <td valign="top"><img src=https://github.com/jsantoso2/reddit-data-engineering/blob/main/images/comments_data.png height="180"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/InputMsgVehicle.png height="250"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/InputMsgTrip.png height="250"></td>
+  </tr>
+  <tr>
+    <td>Output Msg Vehicle</td>
+    <td>Output Msg Stop</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/OutputMsgVehicle.png height="200"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/OutputMsgStops.png height="200"></td>
   </tr>
 </table>
-<p align="left"> </p>
+
+#### Flink
+<table>
+  <tr>
+    <td>Flink UI</td>
+    <td>Flink Job</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/FlinkUI.png height="150"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/FlinkJob.png height="150"></td>
+  </tr>
+  <tr>
+    <td>Grafana on GKE only</td>
+    <td>Prometheus on GKE only</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/SampleGrafanaDash.png height="150"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/SamplePrometheus.png height="100"></td>
+  </tr>
+</table>
 
 #### Application UI:
 <table>
@@ -38,12 +67,10 @@ Currently, Spark Stream writes a new file every 4 hours -> which triggers the Cl
     <td>Messages Available</td>
   </tr>
   <tr>
-    <td valign="top"><img src=https://github.com/jsantoso2/reddit-data-engineering/blob/main/images/dashboard_1.png height="300"></td>
-    <td valign="top"><img src=https://github.com/jsantoso2/reddit-data-engineering/blob/main/images/dashboard_2.png height="300"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/AppStart.png height="250"></td>
+    <td valign="top"><img src=https://github.com/jsantoso2/madison-tracking-app/blob/main/images/AppMain.png height="250"></td>
   </tr>
 </table>
-
-#### Website Link (Valid until Oct 1st 2023): https://learning-gcp-392602.uc.r.appspot.com/
 
 ### Tools/Framework Used:
 - Terraform: To create and standardize GCP resources (ex: VPC Netowork, Subnets, storage bucket, VM, etc.)
@@ -66,6 +93,7 @@ Currently, Spark Stream writes a new file every 4 hours -> which triggers the Cl
     - Flink Service Account (“flink-serv-acct”) with “Editor” + “Storage Admin” Permission
     - Artifact Registry Service Account (“pushtoar-serv-acct”) with “Editor” + “Storage Admin” + “Artifact Registry Admin”
   - In local terminal -> gcloud auth login -> gcloud configure set project PROJECTID
+  - VSCode SSH connection to flink-vm (recommended – see notes above)
 - Terraform
   - Launch Command Shell -> Open Editor -> Load Service Account Key + Terraform Files + main_requirements.zip (from cloud_function_producer folder) into root folder
   - Launch terraform init -> terraform plan -> terraform apply
