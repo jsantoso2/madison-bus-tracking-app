@@ -5,7 +5,7 @@
 - Connect Websocket to React App for Visualization
 - All services are hosted on GCP
 
-### Website Link (Valid until Oct 1st 2023): https://learning-gcp-392602.uc.r.appspot.com/
+### Website Link (Valid until Dec 1st 2023): [https://learning-gcp-405504.uc.r.appspot.com](https://learning-gcp-405504.uc.r.appspot.com/)
   
 ### Purpose + Goal:
 - Learn technologies (Terraform, Kafka, Flink, Networking in GCP, GKE, Websockets, React), NOT producing the best/optimal architecture
